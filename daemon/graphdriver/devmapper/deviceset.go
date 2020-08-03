@@ -2262,10 +2262,11 @@ func (devices *DeviceSet) unmountAndDeactivateAll(dir string) {
 		// We use MNT_DETACH here in case it is still busy in some running
 		// container. This means it'll go away from the global scope directly,
 		// and the device will be released when that container dies.
+		logrus.Infof("untar unmount %s start", fullname)
 		if err := unix.Unmount(fullname, unix.MNT_DETACH); err != nil && err != unix.EINVAL {
 			logger.Warnf("Shutdown unmounting %s, error: %s", fullname, err)
 		}
-
+		logrus.Infof("untar unmount %s done", fullname)
 		if devInfo, err := devices.lookupDevice(name); err != nil {
 			logger.Debugf("Shutdown lookup device %s, error: %s", name, err)
 		} else {
